@@ -10,6 +10,8 @@
 * system prompt 
 * conversation memory 
 * basic commands (exit, reset memory)
+* tool calling : 
+    - calculator 
 
 
 #Run : 
