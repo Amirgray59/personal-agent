@@ -1,20 +1,34 @@
 from app.llm import LLMClient
+from app.tools.registery import ToolRegistry
+import json 
+
+from typing import Any 
 
 
 class Agent:
 
-    def __init__(self, llm: LLMClient):
+    def __init__(
+        self, llm: LLMClient, 
+        tools: ToolRegistry,    # give the agent tools class to check and run tools 
+        max_tool_rounds: int = 5
+    ):
 
         self.llm = llm
+        self.tools = tools 
+        self.max_tool_rounds = max_tool_rounds
 
+        # also defined the tools at system prompt
         self.system_message = {
             "role": "system",
             "content": """
             You are a helpful AI assistant.
-            Answer clearly and accurately.
-            If you do not know something, say so.
+
+            Use the calculator tool for arithmetic calculations.
+            Do not guess mathematical results.
+
             Respond in the same language as the user.
-            Your developer's name is Amir
+
+            Your developer's name is Amir 
             """
         }
 
@@ -25,24 +39,85 @@ class Agent:
         if not user_input.strip():
             raise ValueError("User input cannot be empty")
 
+        
+        history_length = len(self.messages)
+
         self.messages.append({
             "role": "user",
             "content": user_input,
         })
 
         try:
-            response = self.llm.generate(self.messages)
+
+            tool_rounds = 0 
+
+
+            while True : 
+
+                
+                # Ask LLM 
+                response = self.llm.generate(
+                    messages= self.messages ,
+                    tools = self.tools.get_definitions()
+                )
+
+
+
+                # Save LLM response message 
+                self.messages.append(
+                    response.model_dump(exclude_none=True)
+                )
+
+
+                # Check if LLM not requested a tool (use a normal response) 
+                if not response.tool_calls: 
+                    answer = response.content or "" 
+
+                    if not answer.strip() : 
+                        raise RuntimeError("LLM returned an empty response")
+
+                    return answer 
+
+                
+                # check the tool count call limit 
+                if tool_rounds >= self.max_tool_rounds : 
+                    raise RuntimeError("Maximum tool rounds exceeded")
+
+
+
+                for tool_call in response.tool_calls : 
+
+                    tool_name = tool_call.function.name 
+
+
+                    tool_argument = tool_call.function.arguments     
+
+
+                    result = self.tools.execute(
+                        name=tool_name, 
+                        arguments=tool_argument
+                    )
+
+                
+                    self.messages.append({
+                        "role" : "tool", 
+                        "tool_call_id" : tool_call.id, 
+                        "name" : tool_name , 
+                        "content" : json.dumps(
+                            result, 
+                            ensure_ascii=False 
+                        )
+                    })
+
+                tool_rounds += 1 
+                
+
+
+
 
         except Exception:
-            self.messages.pop()
-            raise
-
-        self.messages.append({
-            "role": "assistant",
-            "content": response,
-        })
-
-        return response
+            del self.messages[history_length: ]
+            raise 
 
     def reset(self):
 

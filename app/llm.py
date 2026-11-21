@@ -18,18 +18,16 @@ class LLMClient:
 
 
 
-    def generate(self, messages: list[dict[str,str]]) -> str : 
+    def generate(self, messages: list[dict[str,str]], tools=list[dict])  : 
 
         response = self.client.chat.completions.create(
             model=self.model,
             messages=messages, 
-            temperature=.2 
+            temperature=.2 ,
+            tools=tools,        # give the models the tool names and their use 
+            tool_choice="auto",
         )
 
-        content = response.choices[0].message.content
-
-        if not content : 
-            raise RuntimeError("LLM returend an empty message")
-
+        content = response.choices[0].message
 
         return content 

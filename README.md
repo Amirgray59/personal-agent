@@ -3,6 +3,13 @@
 ### programming, article & report writing , ... 
 
 ### recommended model: deepseek-v4.1-flash 
+### recommended ai provider : gapgpt.app 
+
+
+# Features : 
+* system prompt 
+* conversation memory 
+* basic commands (exit, reset memory)
 
 
 #Run : 
@@ -17,7 +24,6 @@ OPENAI_BASE_URL=
 OPENAI_MODEL=
 ```
 
-### recommended ai provider : gapgpt.app 
 
 ``` bash 
 
