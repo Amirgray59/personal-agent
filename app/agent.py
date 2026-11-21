@@ -7,8 +7,17 @@ class Agent:
 
         self.llm = llm
 
+        self.system_message = {
+            "role": "system",
+            "content": """
+            You are a helpful AI assistant.
+            Answer clearly and accurately.
+            If you do not know something, say so.
+            Respond in the same language as the user.
+            """
+        }
 
-        self.messages = []
+        self.messages = [self.system_message.copy()]
 
     def run(self, user_input: str) -> str:
 
@@ -36,4 +45,4 @@ class Agent:
 
     def reset(self):
 
-        self.messages = []
+        self.messages = [self.system_message.copy()]
