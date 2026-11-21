@@ -28,11 +28,11 @@ def main() :
 
         user_input = input("\n>> ").strip() 
 
-        if user_input == "/exit" : 
+        if user_input.strip() == "/exit" : 
             print("Agent stoped")
             break 
 
-        if user_input == "/reset" : 
+        if user_input.strip() == "/reset" : 
             agent.reset() 
             print("Conversation history cleaned!")
             continue 
