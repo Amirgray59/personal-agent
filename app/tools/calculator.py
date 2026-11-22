@@ -5,6 +5,8 @@ def calculator(
     operation: str
 ) -> dict:
 
+    print("\n[ToolCall] Using calculator ...")
+
     if isinstance(a, bool) or not isinstance(a, (int, float)):
         raise ValueError("First operand must be a number")
 

@@ -1,6 +1,8 @@
 from app.tools.registery import ToolRegistry 
 from app.tools.calculator import calculator
 from app.tools.date_time import get_current_datetime
+from app.tools.web_search import web_search
+
 
 
 def create_tool_registry() : 
@@ -73,6 +75,35 @@ def create_tool_registry() :
         },
 
         function=get_current_datetime
+    )
+
+
+
+    registry.register(
+
+        name="web_search",
+
+        description=(
+            "Search the internet for information. "
+            "Use this tool for current events, "
+            "recent information, technical documentation "
+            "and questions requiring external sources. "
+            "Returns titles, URLs and search snippets."
+        ),
+
+        parameters={
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The search query"
+                }
+            },
+            "required": ["query"],
+            "additionalProperties": False
+        },
+
+        function=web_search
     )
 
     return registry 

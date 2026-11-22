@@ -4,6 +4,9 @@ def get_current_datetime(
     timezone: str = "UTC"
 ) -> dict:
 
+
+    print("\n[ToolCall] Using datetime ...")
+
     try:
         tz = ZoneInfo(timezone)
 
