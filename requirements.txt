@@ -2,3 +2,4 @@ pip
 openai 
 python-dotenv 
 ddgs
+

@@ -25,6 +25,7 @@ class LLMClient:
             messages=messages, 
             temperature=.2 ,
             tools=tools,        # give the models the tool names and their use 
+            parallel_tool_calls=True,
             tool_choice="auto",
         )
 
