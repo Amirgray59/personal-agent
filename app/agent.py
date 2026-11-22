@@ -23,9 +23,20 @@ class Agent:
             "content": """
             You are a helpful AI assistant.
 
-            Use the calculator tool for arithmetic calculations.
-            Do not guess mathematical results.
+            Available tools:
 
+            1. calculator:
+            Use for arithmetic calculations.
+
+            2. get_current_datetime:
+            Use for current date and time questions.
+
+            Never guess current date or time.
+            Use the appropriate tool when needed.
+
+            Only claim a tool was executed
+            if it was actually called.
+            
             Respond in the same language as the user.
 
             Your developer's name is Amir 
