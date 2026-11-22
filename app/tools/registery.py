@@ -30,10 +30,10 @@ class ToolRegistry : # _> add a list of tools with their use to parse into the L
     
 
         self._tools[name] = RegisteredTool(
-        name=name,
-        description=description,
-        parameters=parameters,
-        function=function  )
+            name=name,
+            description=description,
+            parameters=parameters,
+            function=function  )
 
     def get_definitions(self) -> list[dist] : 
 
