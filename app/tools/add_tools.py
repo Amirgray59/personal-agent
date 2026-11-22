@@ -2,7 +2,7 @@ from app.tools.registery import ToolRegistry
 from app.tools.calculator import calculator
 from app.tools.date_time import get_current_datetime
 from app.tools.web_search import web_search
-
+from app.tools.file_reader import read_file
 
 
 def create_tool_registry() : 
@@ -104,6 +104,40 @@ def create_tool_registry() :
         },
 
         function=web_search
+    )
+
+
+    registry.register(
+
+        name="read_file",
+
+        description=(
+            "Read a text file from the agent workspace. "
+            "Supported formats are TXT, MD, CSV and JSON and PY. "
+            "The path must be relative to the workspace directory. "
+            "For example: notes.md or reports/data.csv. "
+            "Use this tool when the user asks to read or inspect a file."
+        ),
+
+        parameters={
+            "type": "object",
+
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": (
+                        "Relative file path inside workspace. "
+                        "Example: notes.md"
+                    )
+                }
+            },
+
+            "required": ["path"],
+
+            "additionalProperties": False
+        },
+
+        function=read_file
     )
 
     return registry 

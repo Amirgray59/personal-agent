@@ -1,0 +1,9 @@
+Phase 1: LLM Connection
+Phase 2: Agent Core
+Phase 3: Tool Calling
+Phase 4: Date and Time
+Phase 5: Web Search
+Phase 6: Parallel Execution
+Phase 7: File Reader
+Phase 8: Memory
+Phase 9: Planning
